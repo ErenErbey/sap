@@ -1,2 +1,2 @@
 # sap
-sap abap yardımcı kod deposu
+sap abap öğrenirken yazdığım örnek kodlar
