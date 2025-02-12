@@ -1,0 +1,28 @@
+" gs_cont      TYPE ssfctrlop
+" Smart Forms kontrol parametrelerini tutan yapı.
+" Çıktının nasıl oluşturulacağına dair kontrolleri içerir. Örneğin, önizleme mi yapılacak yoksa direkt yazdırılacak mı gibi seçenekleri belirler.
+
+" gs_output    TYPE ssfcompop
+" Smart Forms çıktı parametrelerini içeren yapı.
+" Çıktının formatı (PDF, yazıcı, e-posta vb.) gibi özellikleri belirlemek için kullanılır.
+
+" gv_fm_name   TYPE rs38l_fnam
+" Smart Forms için fonksiyon modülü adını saklayan değişken.
+" Smart Forms çıktısını almak için kullanılan dinamik fonksiyon modülünün ismini tutar.
+
+
+" Smart Forms fonksiyon modülü adını almak için sistem fonksiyonunu çağırıyoruz.
+CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+    EXPORTING
+      formname = 'Z_SF_0002'   " Kullanılacak Smart Forms formunun adı.
+    IMPORTING
+      fm_name  = gv_fm_name.   " Smart Forms'un oluşturduğu dinamik fonksiyon modülünün adı burada saklanıyor.
+
+
+" Önceki adımda elde edilen fonksiyon modülünü çağırarak Smart Forms çıktısını oluşturuyoruz.
+CALL FUNCTION gv_fm_name
+    EXPORTING
+      control_parameters = gs_cont   " Kontrol parametreleri (önizleme, yazdırma, format ayarları gibi).
+      output_options     = gs_output " Çıktı formatına ilişkin seçenekler (PDF, yazıcı, e-posta vb.).
+      user_settings      = ' '       " Kullanıcı ayarları, boş bırakılmış (varsayılan ayarlar kullanılıyor).
+      it_bkpf            = gt_tb1_t. " Smart Forms içinde kullanılacak belge verilerini içeren iç tablo.
