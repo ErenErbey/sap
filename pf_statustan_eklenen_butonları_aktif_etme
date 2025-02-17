@@ -1,0 +1,19 @@
+" EVENT HANDLER Sınıfını Tanımlıyoruz (Buton tıklamaları için)
+CLASS lcl_event_handler DEFINITION.
+  PUBLIC SECTION.
+    " Buton tıklama olayını yakalamak için gerekli event metodu tanımlıyoruz
+    METHODS on_user_command FOR EVENT added_function OF cl_salv_events_table
+      IMPORTING e_salv_function.
+ENDCLASS.
+
+CLASS lcl_event_handler IMPLEMENTATION.
+  METHOD on_user_command.
+    " Kullanıcı butona tıkladığında ne yapılacağı burada tanımlanır
+    CASE e_salv_function.
+      WHEN '&MSG'.  " PF-STATUS'taki Function Code, butonun kodu
+        MESSAGE 'Butona tıklandı! (SALV)' TYPE 'I'.  " Butona tıklanmışsa, bir mesaj gösteriyoruz
+    ENDCASE.
+  ENDMETHOD.
+ENDCLASS.
+" Butonları aktif hale getiriyoruz
+  go_salv->get_functions( )->set_all( abap_true ).  " Butonları aktif ediyoruz
